@@ -236,19 +236,15 @@ function initialiseData() {
     ['stationCapacity', ''],
   ]);
 }
+
 initialiseData();
+getData();
+setInterval(getData, 60 * 1000);
 
 app.get('/data', (req, res) => {
   return res.send(Object.fromEntries(data));
 });
 
-app.get('/refresh', (req, res) => {
-  getData();
-  return res.send('ok');
-});
-
 app.listen(port, () => {
   console.log(`Solis cloud scraper listening on port ${port}`);
 });
-
-getData();

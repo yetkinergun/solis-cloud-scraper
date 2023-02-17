@@ -33,17 +33,6 @@ To scrape data from the Solis Cloud website and expose via the `/data` endpoint,
 
 This will start the scraper on port 5561, perform an initial scrape and make the `/data` endpoint available.  The port can be changed from the configuration.
 
-## Refreshing Scraped Data
-To instruct the scraper to refresh the data (scrape again), call the `/refresh` endpoint
-
- This endpoint is secured with basic authentication, with configuration in the scraper.properties file
-
-## Refreshing automatically
-An optional refresh script is also provided.  By default it will request a data refresh every 6 minutes between 6am and 11pm.  This can be changed in the configuration.
-
-To start the refresher run the command
-* `node refresher.js`
-
 ## Retrieving the scraped data
 This data is made available at the endpoint `http://[your.ip.addr]:[port]/data`
  * e.g `http://127.0.0.1:5561/data`
@@ -87,11 +76,6 @@ The following configuration values are required by the scraper.js script
 * solis.password = [your password for soliscloud.com]
 * service.port = [the port to expose scraped data and call refresh on]
 
-The following configuration values are required by the refresher.js script
-* service.port = [the port to expose scraped data and call refresh on]
-* service.url = [the URL where the scraper is running
-* refresh.interval-mins = [the interval in minutes to call the /refresh endpoint]
-
 An example config looks like:
 
     # Details for accessing solis cloud used by scraper.js
@@ -100,10 +84,6 @@ An example config looks like:
     solis.password = crazyPassw0rd!
     service.port = 5561
     
-    # Details to refresh the scraped data used by refresher.js
-    service.refresh.url = http://scraper.domain.com:5561/refresh
-    refresh.interval-mins = 6
-
 ## Restrictions/Limitations
 * The scraper choses the first plant on the list presented at soliscloud.com
 * Returned values are the displayed values from the soliscloud website
