@@ -22,6 +22,8 @@ async function scrapeData() {
     const page = await browser.newPage();
     await page.setViewport({ width: 1200, height: 1000 });
     await page.goto(url);
+    await page.reload();
+    await page.waitForTimeout(5000);
 
     try {
       await page.click('.username input');
