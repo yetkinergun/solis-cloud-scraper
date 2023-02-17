@@ -5,9 +5,6 @@ const properties = PropertiesReader('scraper.properties');
 
 const url = properties.get('service.refresh.url');
 const refreshIntervalMins = properties.get('refresh.interval-mins');
-// Note 24 hr clock
-const scrapeStartHour = properties.get('refresh.start-hour');
-const scrapeEndHour = properties.get('refresh.end-hour');
 
 async function callDataRefresh() {
   console.log('Calling refresh');
@@ -37,28 +34,5 @@ const getRemoteData = (url) =>
     request.on('error', (err) => reject(err));
   });
 
-function calcTimeout() {
-  const hour = new Date().getHours();
-  if (hour >= scrapeStartHour && hour < scrapeEndHour) {
-    callDataRefresh();
-    setTimeout(calcTimeout, refreshIntervalMins * 60 * 1000);
-  } else {
-    var now = new Date().getTime();
-
-    var tomorrow = new Date(now + 86400000);
-    tomorrow.setHours(scrapeStartHour, 0, 0);
-    var startTimeTomorrow = tomorrow.getTime();
-
-    var timeToStartTime = startTimeTomorrow - now;
-    // Add 5 seconds to ensure we're inside window
-    timeToStartTime += 5 * 1000;
-
-    var minsTo = Math.floor(timeToStartTime / 1000 / 60);
-
-    console.log('Sleeping until ' + scrapeStartHour + ' tomorrow. ' + minsTo + ' minutes');
-
-    setTimeout(calcTimeout, timeToStartTime);
-  }
-}
-
-calcTimeout();
+callDataRefresh();
+setInterval(callDataRefresh, refreshIntervalMins * 60 * 1000);

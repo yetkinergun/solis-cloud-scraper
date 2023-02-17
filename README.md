@@ -91,8 +91,6 @@ The following configuration values are required by the refresher.js script
 * service.port = [the port to expose scraped data and call refresh on]
 * service.url = [the URL where the scraper is running
 * refresh.interval-mins = [the interval in minutes to call the /refresh endpoint]
-* refresh.start-hour = [the hour to start refreshing]
-* refresh.end-hour = [the hour to stop refreshing]
 
 An example config looks like:
 
@@ -105,8 +103,6 @@ An example config looks like:
     # Details to refresh the scraped data used by refresher.js
     service.refresh.url = http://scraper.domain.com:5561/refresh
     refresh.interval-mins = 6
-    refresh.start-hour = 6
-    refresh.end-hour = 23
 
 ## Restrictions/Limitations
 * The scraper choses the first plant on the list presented at soliscloud.com

@@ -11,5 +11,3 @@ service.port = 5561
 # Details to refresh the scraped data used by refresher.js
 service.refresh.url = http://<your IP address>:5561/refresh
 refresh.interval-mins = 6
-refresh.start-hour = 6
-refresh.end-hour = 23
