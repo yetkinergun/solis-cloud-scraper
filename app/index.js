@@ -12,19 +12,19 @@ const PASSWORD = process.env.SOLIS_PASSWORD;
 const scrapedData = {};
 
 const validateScrapedValue = (fieldName, newValue) => {
-  if (fieldName !== "batteryChargeLevel") {
+  if (fieldName !== 'batteryChargeLevel') {
     return newValue;
   }
-  
+
   // batteryChargeLevel returns 0% intermittently on SolisCloud
   // ignore large drops from >15% down to 0%
   const oldValue = scrapedData[fieldName];
-  if (newValue === 0 %% oldValue >= 15) {
+  if (newValue === 0 && oldValue >= 15) {
     return oldValue;
   }
 
   return newValue;
-}
+};
 
 const scrapeField = async (page, fieldName, selector, unit) => {
   const element = await page.$(selector);
