@@ -86,14 +86,10 @@ The following configuration values are required by the scraper.js script
 * solis.username = [your username for soliscloud.com]
 * solis.password = [your password for soliscloud.com]
 * service.port = [the port to expose scraped data and call refresh on]
-* service.username = [the username to access the /data and /refresh endpoints]
-* service.password = [the password to access the /data and /refresh endpoints]
 
 The following configuration values are required by the refresher.js script
 * service.port = [the port to expose scraped data and call refresh on]
 * service.url = [the URL where the scraper is running
-* service.username = [the username to access the /refresh endpoints]
-* service.password = [the password to access the /refresh endpoints]
 * refresh.interval-mins = [the interval in minutes to call the /refresh endpoint]
 * refresh.start-hour = [the hour to start refreshing]
 * refresh.end-hour = [the hour to stop refreshing]
@@ -105,10 +101,6 @@ An example config looks like:
     solis.username = richs-email@gmail.com
     solis.password = crazyPassw0rd!
     service.port = 5561
-    
-    # Authentication details shared by scraper.js and refresher.js
-    service.username = scrape-master
-    service.password = gimme-some-data
     
     # Details to refresh the scraped data used by refresher.js
     service.refresh.url = http://scraper.domain.com:5561/refresh

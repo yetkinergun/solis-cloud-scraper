@@ -7,19 +7,6 @@ const properties = PropertiesReader('scraper.properties');
 
 const app = express();
 const port = properties.get('service.port');
-
-app.use(basicAuth({ authorizer: propertyAuthoriser }));
-
-function propertyAuthoriser(username, password) {
-  const scrapeRequiredUsername = properties.get('service.username');
-  const scrapeRequiredPassword = properties.get('service.password');
-
-  const userMatches = basicAuth.safeCompare(username, scrapeRequiredUsername);
-  const passwordMatches = basicAuth.safeCompare(password, scrapeRequiredPassword);
-
-  return userMatches & passwordMatches;
-}
-
 const url = properties.get('solis.url');
 const username = properties.get('solis.username');
 const password = properties.get('solis.password');

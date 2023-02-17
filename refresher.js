@@ -4,9 +4,6 @@ const PropertiesReader = require('properties-reader');
 const properties = PropertiesReader('scraper.properties');
 
 const url = properties.get('service.refresh.url');
-const scrapeRequiredUsername = properties.get('service.username');
-const scrapeRequiredPassword = properties.get('service.password');
-
 const refreshIntervalMins = properties.get('refresh.interval-mins');
 // Note 24 hr clock
 const scrapeStartHour = properties.get('refresh.start-hour');
@@ -29,10 +26,7 @@ async function callDataRefresh() {
 
 const getRemoteData = (url) =>
   new Promise((resolve, reject) => {
-    const credentials = scrapeRequiredUsername + ':' + scrapeRequiredPassword;
-    var authOptions = { auth: credentials };
-
-    const request = client.get(url, authOptions, (response) => {
+    const request = client.get(url, (response) => {
       if (response.statusCode < 200 || response.statusCode > 299) {
         reject(new Error(`Failed with status code: ${response.statusCode}`));
       }
