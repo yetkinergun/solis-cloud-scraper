@@ -53,11 +53,10 @@ async function scrapeData() {
     const stationElement = await page.$('.el-table__row .el-table_1_column_8 .cell');
     const stationCapacity = await (await stationElement.getProperty('textContent')).jsonValue();
 
-    // await page.waitForSelector(".el-table__body-wrapper tr");
     await page.click('.el-table__body-wrapper tr');
     await page.waitForTimeout(5000);
 
-    // Opens in new tab, so move that that
+    // Opens in new tab, so move to that
     const pages = await browser.pages();
 
     const popup = pages[pages.length - 1];
