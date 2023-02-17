@@ -4,10 +4,10 @@ const FIELD_CONFIG = require('./fieldConfig.js');
 
 const app = express();
 
-const PORT = 8080;
-const SOLIS_URL = process.env.SOLIS_URL;
+const SOLIS_URL = 'https://soliscloud.com';
 const USERNAME = process.env.SOLIS_USERNAME;
 const PASSWORD = process.env.SOLIS_PASSWORD;
+const PORT = 8080;
 
 const scrapedData = {};
 

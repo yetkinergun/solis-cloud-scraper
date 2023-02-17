@@ -8,7 +8,6 @@ A dockerised nodejs app that scrapes data from Solis Cloud every minute.
 - Create a `.env` file in the root directory:
 
 ```
-SOLIS_URL=https://soliscloud.com
 SOLIS_USERNAME=your-solis-cloud-login@domain.com
 SOLIS_PASSWORD=your-solis-cloud-password
 ```
