@@ -4,12 +4,10 @@ const FIELD_CONFIG = require('./fieldConfig.js');
 
 const app = express();
 
-const PORT = process.env.PORT || 8080;
+const PORT = 8080;
 const SOLIS_URL = process.env.SOLIS_URL;
 const USERNAME = process.env.SOLIS_USERNAME;
 const PASSWORD = process.env.SOLIS_PASSWORD;
-
-const scrapedData = {};
 
 const scrapeField = async (page, fieldName, selector, unit) => {
   const element = await page.$(selector);
@@ -17,6 +15,8 @@ const scrapeField = async (page, fieldName, selector, unit) => {
   const resultFloat = parseFloat(resultString.replace(unit, ''));
   scrapedData[fieldName] = resultFloat;
 };
+
+const scrapedData = {};
 
 async function scrapeData() {
   const browser = await puppeteer.launch({

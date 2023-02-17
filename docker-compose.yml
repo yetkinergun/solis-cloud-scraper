@@ -1,0 +1,15 @@
+version: "3.9"
+
+services:
+  solis_cloud_scraper:
+    container_name: solis_cloud_scraper
+    build: ./app
+    environment:
+      - TZ=Europe/London
+      - SOLIS_URL=${SOLIS_URL}
+      - SOLIS_USERNAME=${SOLIS_USERNAME}
+      - SOLIS_PASSWORD=${SOLIS_PASSWORD}
+    ports:
+      - "8080:8080"
+    restart: always
+    init: true
