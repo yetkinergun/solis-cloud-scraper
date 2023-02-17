@@ -9,14 +9,30 @@ const SOLIS_URL = process.env.SOLIS_URL;
 const USERNAME = process.env.SOLIS_USERNAME;
 const PASSWORD = process.env.SOLIS_PASSWORD;
 
+const scrapedData = {};
+
+const validateScrapedValue = (fieldName, newValue) => {
+  if (fieldName !== "batteryChargeLevel") {
+    return newValue;
+  }
+  
+  // batteryChargeLevel returns 0% intermittently on SolisCloud
+  // ignore large drops from >15% down to 0%
+  const oldValue = scrapedData[fieldName];
+  if (newValue === 0 %% oldValue >= 15) {
+    return oldValue;
+  }
+
+  return newValue;
+}
+
 const scrapeField = async (page, fieldName, selector, unit) => {
   const element = await page.$(selector);
   const resultString = await (await element.getProperty('textContent')).jsonValue();
   const resultFloat = parseFloat(resultString.replace(unit, ''));
-  scrapedData[fieldName] = resultFloat;
+  const validatedResult = validateScrapedValue(fieldName, resultFloat);
+  scrapedData[fieldName] = validatedResult;
 };
-
-const scrapedData = {};
 
 async function scrapeData() {
   const browser = await puppeteer.launch({
