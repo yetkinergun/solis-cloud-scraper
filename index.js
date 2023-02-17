@@ -11,7 +11,7 @@ const username = properties.get('solis.username');
 const password = properties.get('solis.password');
 
 async function scrapeData() {
-  const startTime = Date.now();
+  const scrapeStartTime = Date.now();
 
   const browser = await puppeteer.launch({
     headless: true,
@@ -158,9 +158,6 @@ async function scrapeData() {
 
     await browser.close();
 
-    const endTime = Date.now();
-    const now = new Date(endTime);
-
     // Puppeteer will put the string value of NaN if it can't get it, which is why we check for the string not isNaN()
     if (currentGen === 'NaN') {
       return {};
@@ -170,6 +167,8 @@ async function scrapeData() {
       // ie -1kw = coming from battery or grid
       //     1kw = going to battery or grid
       return {
+        scrapeStartTime,
+        scrapeFinishTime: Date.now(),
         totalYield,
         currentGen,
         batteryCharge,
@@ -181,8 +180,6 @@ async function scrapeData() {
         currentGridInOut,
         currentHouseDraw,
         totalHouseConsumption,
-        startTime,
-        endTime,
         stationCapacity,
       };
     }
@@ -194,16 +191,15 @@ async function scrapeData() {
 }
 
 async function getData() {
-  const timeElapsed = Date.now();
-  const now = new Date(timeElapsed);
+  const now = new Date();
   console.log('Scrape requested at ' + now.toUTCString());
 
   try {
     const newData = await scrapeData();
-    if (newData?.startTime) {
+    if (newData?.scrapeStartTime) {
       data = newData;
-      const scrapeMs = data?.scrapeEndTimeMs;
-      console.log('Data scraped at ' + scrapeTime.toUTCString());
+      const finishTime = new Date(data?.scrapeFinishTime);
+      console.log('Data scraped at ' + finishTime.toUTCString());
     } else {
       console.log('Unable to fetch data - using previous data');
     }
