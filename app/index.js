@@ -100,7 +100,7 @@ const scrapeData = async () => {
       console.log('ERROR: Failed to fetch data...');
     }
   } catch (error) {
-    console.log('ERROR: ' + e.message);
+    console.log('ERROR: ' + error.message);
   } finally {
     await browser.close();
   }
