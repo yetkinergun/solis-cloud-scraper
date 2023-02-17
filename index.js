@@ -58,9 +58,9 @@ async function scrapeData() {
     await page.waitForTimeout(5000);
 
     // Opens in new tab, so move that that
-    let pages = await browser.pages();
+    const pages = await browser.pages();
 
-    let popup = pages[pages.length - 1];
+    const popup = pages[pages.length - 1];
     await popup.setViewport({ width: 1200, height: 1000 });
 
     // Wait for detail to be available
@@ -163,30 +163,28 @@ async function scrapeData() {
 
     // Puppeteer will put the string value of NaN if it can't get it, which is why we check for the string not isNaN()
     if (currentGen === 'NaN') {
-      return new Map([]);
+      return {};
     } else {
       // Elements should be named NOW or TODAY as appropriate
       // A negative value could mean drawing FROM ad positive is TO
       // ie -1kw = coming from battery or grid
       //     1kw = going to battery or grid
-      const data = new Map([
-        ['totalYield', totalYield],
-        ['currentGen', currentGen],
-        ['batteryCharge', batteryCharge],
-        ['drawFromBattery', drawFromBattery],
-        ['todaysCharging', todaysCharging],
-        ['todaysDischarging', todaysDischarging],
-        ['todayFromGrid', todayFromGrid],
-        ['todayToGrid', todayToGrid],
-        ['currentGridInOut', currentGridInOut],
-        ['currentHouseDraw', currentHouseDraw],
-        ['totalHouseConsumption', totalHouseConsumption],
-        ['scrapeStartDurationMs', startTime],
-        ['scrapeEndTimeMs', endTime],
-        ['stationCapacity', stationCapacity],
-      ]);
-
-      return data;
+      return {
+        totalYield,
+        currentGen,
+        batteryCharge,
+        drawFromBattery,
+        todaysCharging,
+        todaysDischarging,
+        todayFromGrid,
+        todayToGrid,
+        currentGridInOut,
+        currentHouseDraw,
+        totalHouseConsumption,
+        startTime,
+        endTime,
+        stationCapacity,
+      };
     }
   } catch (e) {
     console.log('Error - ' + e.message);
@@ -202,10 +200,9 @@ async function getData() {
 
   try {
     const newData = await scrapeData();
-    if (newData.size > 0) {
+    if (newData?.startTime) {
       data = newData;
-      let scrapeMs = data.get('scrapeEndTimeMs');
-      let scrapeTime = new Date(scrapeMs);
+      const scrapeMs = data?.scrapeEndTimeMs;
       console.log('Data scraped at ' + scrapeTime.toUTCString());
     } else {
       console.log('Unable to fetch data - using previous data');
@@ -215,34 +212,13 @@ async function getData() {
   }
 }
 
-var data = [];
+let data = {};
 
-function initialiseData() {
-  const time = Date.now();
-  data = new Map([
-    ['totalYield', ''],
-    ['currentGen', ''],
-    ['batteryCharge', ''],
-    ['drawFromBattery', ''],
-    ['todaysCharging', ''],
-    ['todaysDischarging', ''],
-    ['todayFromGrid', ''],
-    ['todayToGrid', ''],
-    ['currentGridInOut', ''],
-    ['currentHouseDraw', ''],
-    ['totalHouseConsumption', ''],
-    ['scrapeStartDurationMs', time],
-    ['scrapeEndTimeMs', time],
-    ['stationCapacity', ''],
-  ]);
-}
-
-initialiseData();
 getData();
 setInterval(getData, 60 * 1000);
 
 app.get('/data', (req, res) => {
-  return res.send(Object.fromEntries(data));
+  return res.send(data);
 });
 
 app.listen(port, () => {
