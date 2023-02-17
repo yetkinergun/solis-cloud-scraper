@@ -1,6 +1,5 @@
 const puppeteer = require('puppeteer');
 const express = require('express');
-const basicAuth = require('express-basic-auth');
 const PropertiesReader = require('properties-reader');
 
 const properties = PropertiesReader('scraper.properties');
@@ -22,7 +21,6 @@ async function scrapeData() {
   try {
     const page = await browser.newPage();
     await page.setViewport({ width: 1200, height: 1000 });
-
     await page.goto(url);
 
     try {
