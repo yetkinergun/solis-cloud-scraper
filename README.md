@@ -29,7 +29,7 @@ The following data is made available
 
 ## Scraping Data
 To scrape data from the Solis Cloud website and expose via the `/data` endpoint, run the following command once all installation steps are complete
-* `node scraper.js`
+* `node index.js`
 
 This will start the scraper on port 5561, perform an initial scrape and make the `/data` endpoint available.  The port can be changed from the configuration.
 
@@ -66,11 +66,11 @@ You can use curl to check it's working properly using the command
  * `curl -u rich:rich-password http://127.0.0.1:5561/data`
  
 ## Configuration
-Configuration is held in the file scraper.properties which should be in the same folder as the scraper.js file.
+Configuration is held in the file scraper.properties which should be in the same folder as the index.js file.
 
 *Note that some properties are shared if running both index.js and refresher.js from the same location.*
 
-The following configuration values are required by the scraper.js script
+The following configuration values are required by the index.js script
 * solis.url = [url of soliscloud.com]
 * solis.username = [your username for soliscloud.com]
 * solis.password = [your password for soliscloud.com]
@@ -78,7 +78,7 @@ The following configuration values are required by the scraper.js script
 
 An example config looks like:
 
-    # Details for accessing solis cloud used by scraper.js
+    # Details for accessing solis cloud used by index.js
     solis.url = https://soliscloud.com
     solis.username = richs-email@gmail.com
     solis.password = crazyPassw0rd!

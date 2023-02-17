@@ -2,7 +2,7 @@
 # Copy to scraper.properties
 # See readme.md for more info
 
-# Details for accessing solis cloud used by scraper.js
+# Details for accessing solis cloud used by index.js
 solis.url = https://soliscloud.com
 solis.username = <your solis cloud username>
 solis.password = <your solis cloud password>
