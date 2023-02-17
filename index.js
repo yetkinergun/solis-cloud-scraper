@@ -47,7 +47,10 @@ async function scrapeData() {
     // Get plant capacity
     await page.waitForSelector('.el-table__row .el-table_1_column_8 .cell');
     const plantCapacityElement = await page.$('.el-table__row .el-table_1_column_8 .cell');
-    const plantCapacity = await (await plantCapacityElement.getProperty('textContent')).jsonValue();
+    const plantCapacityString = await (
+      await plantCapacityElement.getProperty('textContent')
+    ).jsonValue();
+    const plantCapacity = parseFloat(plantCapacityString.replace('kWp', ''));
 
     await page.click('.el-table__body-wrapper tr');
     await page.waitForTimeout(5000);
@@ -63,27 +66,33 @@ async function scrapeData() {
 
     // Solar power
     const solarPowerElement = await popup.$('.animation > .wrap > .fadian > .content > span');
-    const solarPower = await (await solarPowerElement.getProperty('textContent')).jsonValue();
+    const solarPowerString = await (await solarPowerElement.getProperty('textContent')).jsonValue();
+    const solarPower = parseFloat(solarPowerString.replace('kW', ''));
 
     // Solar energy generated
     const solarEnergyGeneratedElement = await popup.$(
       '.toptext-info > div > .fadian-info > div > span:nth-child(2)'
     );
-    const solarEnergyGenerated = await (
+    const solarEnergyGeneratedString = await (
       await solarEnergyGeneratedElement.getProperty('textContent')
     ).jsonValue();
+    const solarEnergyGenerated = parseFloat(solarEnergyGeneratedString.replace('kWh', ''));
 
     // Battery charge level
     const batteryChargeLevelElement = await popup.$(
       '.chongdian > .content > div > .batteryProgress > .colorBox1'
     );
-    const batteryChargeLevel = await (
+    const batteryChargeLevelString = await (
       await batteryChargeLevelElement.getProperty('textContent')
     ).jsonValue();
+    const batteryChargeLevel = parseFloat(batteryChargeLevelString.replace('%', ''));
 
     // Battery power
     const batteryPowerElement = await popup.$('.animation > .wrap > .chongdian > .content > span');
-    const batteryPower = await (await batteryPowerElement.getProperty('textContent')).jsonValue();
+    const batteryPowerString = await (
+      await batteryPowerElement.getProperty('textContent')
+    ).jsonValue();
+    const batteryPower = parseFloat(batteryPowerString.replace('kW', ''));
 
     // if charge is goign TO battery, it had this:
     // <div data-v-44bfab40="" class="chongdianqiu" style="background-color: rgb(170, 218, 118); border-color: rgba(170, 218, 118, 0.3);"></div>
@@ -94,37 +103,42 @@ async function scrapeData() {
     const batteryEnergyChargedElement = await popup.$(
       '.bottomtext-info > div > .chongdian-info > div:nth-child(1) > span:nth-child(2)'
     );
-    const batteryEnergyCharged = await (
+    const batteryEnergyChargedString = await (
       await batteryEnergyChargedElement.getProperty('textContent')
     ).jsonValue();
+    const batteryEnergyCharged = parseFloat(batteryEnergyChargedString.replace('kWh', ''));
 
     // Battery energy discharged
     const batteryEnergyDischargedElement = await popup.$(
       '.bottomtext-info > div > .chongdian-info > div:nth-child(2) > span:nth-child(2)'
     );
-    const batteryEnergyDischarged = await (
+    const batteryEnergyDischargedString = await (
       await batteryEnergyDischargedElement.getProperty('textContent')
     ).jsonValue();
+    const batteryEnergyDischarged = parseFloat(batteryEnergyDischargedString.replace('kWh', ''));
 
     // Grid power
     const gridPowerElement = await popup.$('.animation > .wrap > .maidian > .content > span');
-    const gridPower = await (await gridPowerElement.getProperty('textContent')).jsonValue();
+    const gridPowerString = await (await gridPowerElement.getProperty('textContent')).jsonValue();
+    const gridPower = parseFloat(gridPowerString.replace('kW', ''));
 
     // Grid energy imported
     const gridEnergyImportedElement = await popup.$(
       '.toptext-info > div > .maidian-info > div:nth-child(1) > span:nth-child(2)'
     );
-    const gridEnergyImported = await (
+    const gridEnergyImportedString = await (
       await gridEnergyImportedElement.getProperty('textContent')
     ).jsonValue();
+    const gridEnergyImported = parseFloat(gridEnergyImportedString.replace('kWh', ''));
 
     // Grid energy exported
     const gridEnergyExportedElement = await popup.$(
       '.toptext-info > div > .maidian-info > div:nth-child(2) > span:nth-child(2)'
     );
-    const gridEnergyExported = await (
+    const gridEnergyExportedString = await (
       await gridEnergyExportedElement.getProperty('textContent')
     ).jsonValue();
+    const gridEnergyExported = parseFloat(gridEnergyExportedString.replace('kWh', ''));
 
     /*
 
@@ -138,15 +152,17 @@ async function scrapeData() {
 
     // House power
     const housePowerElement = await popup.$('.animation > .wrap > .yongdian > .content > span');
-    const housePower = await (await housePowerElement.getProperty('textContent')).jsonValue();
+    const housePowerString = await (await housePowerElement.getProperty('textContent')).jsonValue();
+    const housePower = parseFloat(housePowerString.replace('kW', ''));
 
     // House energy consumed
     const houseEnergyConsumedElement = await popup.$(
       '.bottomtext-info > div > .yongdian-info > div > span:nth-child(2)'
     );
-    const houseEnergyConsumed = await (
+    const houseEnergyConsumedString = await (
       await houseEnergyConsumedElement.getProperty('textContent')
     ).jsonValue();
+    const houseEnergyConsumed = parseFloat(houseEnergyConsumedString.replace('kWh', ''));
 
     await browser.close();
 
