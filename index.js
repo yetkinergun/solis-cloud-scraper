@@ -1,18 +1,14 @@
 const puppeteer = require('puppeteer');
 const express = require('express');
-const PropertiesReader = require('properties-reader');
-
-const properties = PropertiesReader('scraper.properties');
 
 const app = express();
-const port = properties.get('service.port');
-const url = properties.get('solis.url');
-const username = properties.get('solis.username');
-const password = properties.get('solis.password');
+
+const PORT = process.env.PORT || 8080;
+const SOLIS_URL = process.env.SOLIS_URL;
+const USERNAME = process.env.SOLIS_USERNAME;
+const PASSWORD = process.env.SOLIS_PASSWORD;
 
 async function scrapeData() {
-  const scrapeStartTime = Date.now();
-
   const browser = await puppeteer.launch({
     headless: true,
     args: ['--no-zygote', '--no-sandbox'],
@@ -21,7 +17,7 @@ async function scrapeData() {
   try {
     const page = await browser.newPage();
     await page.setViewport({ width: 1200, height: 1000 });
-    await page.goto(url);
+    await page.goto(SOLIS_URL);
     await page.reload();
     await page.waitForTimeout(5000);
 
@@ -29,13 +25,13 @@ async function scrapeData() {
       await page.click('.username input');
     } catch (err) {
       console.log('Reloading page as empty');
-      await page.goto(url);
+      await page.goto(SOLIS_URL);
     }
 
     // Fill in username and password
-    await page.type('.username input', username);
+    await page.type('.username input', USERNAME);
     await page.click('.username_pwd.el-input input');
-    await page.type('.username_pwd.el-input input', password);
+    await page.type('.username_pwd.el-input input', PASSWORD);
 
     // Click privacy policy
     await page.evaluate(() => {
@@ -166,8 +162,7 @@ async function scrapeData() {
       // ie -1kw = coming from battery or grid
       //     1kw = going to battery or grid
       return {
-        scrapeStartTime,
-        scrapeFinishTime: Date.now(),
+        scrapedAt: new Date().toISOString(),
         totalYield,
         currentGen,
         batteryCharge,
@@ -195,10 +190,9 @@ async function getData() {
 
   try {
     const newData = await scrapeData();
-    if (newData?.scrapeStartTime) {
+    if (newData?.scrapedAt) {
       data = newData;
-      const finishTime = new Date(data?.scrapeFinishTime);
-      console.log('Data scraped at ' + finishTime.toUTCString());
+      console.log('Data scraped at ' + data.scrapedAt);
     } else {
       console.log('Unable to fetch data - using previous data');
     }
@@ -213,9 +207,9 @@ getData();
 setInterval(getData, 60 * 1000);
 
 app.get('/data', (req, res) => {
-  return res.send(data);
+  return res.json(data);
 });
 
-app.listen(port, () => {
-  console.log(`Solis cloud scraper listening on port ${port}`);
+app.listen(PORT, () => {
+  console.log(`Solis cloud scraper listening on port ${PORT}`);
 });
