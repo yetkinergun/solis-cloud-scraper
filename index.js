@@ -79,11 +79,11 @@ async function scrapeData() {
 
     await browser.close();
 
-    if (Object.keys(scrapedData).length === 0) {
-      return false;
-    } else {
+    if (Object.keys(scrapedData).length > 0) {
       scrapedData.scrapedAt = new Date().toISOString();
       return true;
+    } else {
+      return false;
     }
   } catch (e) {
     console.log('Error - ' + e.message);
@@ -93,8 +93,7 @@ async function scrapeData() {
 }
 
 async function getData() {
-  const now = new Date();
-  console.log('Scrape requested at ' + now.toUTCString());
+  console.log('Scrape requested at ' + new Date().toUTCString());
 
   try {
     const success = await scrapeData();
