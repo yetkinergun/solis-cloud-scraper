@@ -34,7 +34,9 @@ const scrapeField = async (page, fieldName, selector, unit) => {
   scrapedData[fieldName] = validatedResult;
 };
 
-async function scrapeData() {
+const scrapeData = async () => {
+  console.log('Scrape requested at ' + new Date().toUTCString());
+
   const browser = await puppeteer.launch({
     headless: true,
     args: ['--no-zygote', '--no-sandbox'],
@@ -49,8 +51,7 @@ async function scrapeData() {
 
     try {
       await page.click('.username input');
-    } catch (err) {
-      console.log('Reloading page as empty');
+    } catch (error) {
       await page.goto(SOLIS_URL);
     }
 
@@ -66,65 +67,47 @@ async function scrapeData() {
 
     // Click login button
     await page.click('.login-btn button');
-
-    // Wait for page load then click on the table to go to plant overview
     await page.waitForTimeout(5000);
 
+    // Click on plant overview
     await page.click('.el-table__body-wrapper tr');
     await page.waitForTimeout(5000);
 
-    // Opens in new tab, so move to that
+    // Move to new tab
     const pages = await browser.pages();
-
-    const popup = pages[pages.length - 1];
-    await popup.setViewport({ width: 1200, height: 1000 });
+    const newPage = pages[pages.length - 1];
+    await newPage.setViewport({ width: 1200, height: 1000 });
 
     // Wait for detail to be available
-    await popup.waitForSelector('.toptext-info > div > .fadian-info > div > span:nth-child(2)');
+    await newPage.waitForSelector('.toptext-info > div > .fadian-info > div > span:nth-child(2)');
 
+    // Scrape fields
     const fieldNames = Object.keys(FIELD_CONFIG);
     const promises = fieldNames.map((fieldName) => {
       const { selector, unit } = FIELD_CONFIG[fieldName];
 
       return new Promise((resolve, reject) =>
-        resolve(scrapeField(popup, fieldName, selector, unit))
+        resolve(scrapeField(newPage, fieldName, selector, unit))
       );
     });
 
     await Promise.all(promises);
 
-    await browser.close();
-
     if (Object.keys(scrapedData).length > 0) {
       scrapedData.scrapedAt = new Date().toISOString();
-      return true;
+      console.log('SUCCESS: Data scraped at ' + scrapedData.scrapedAt);
     } else {
-      return false;
+      console.log('ERROR: Failed to fetch data...');
     }
-  } catch (e) {
-    console.log('Error - ' + e.message);
+  } catch (error) {
+    console.log('ERROR: ' + e.message);
+  } finally {
     await browser.close();
-    throw e;
   }
-}
+};
 
-async function getData() {
-  console.log('Scrape requested at ' + new Date().toUTCString());
-
-  try {
-    const success = await scrapeData();
-    if (success) {
-      console.log('Data scraped at ' + scrapedData.scrapedAt);
-    } else {
-      console.log('Unable to fetch data - using previous data');
-    }
-  } catch (err) {
-    console.log('Error fetching data - using previous data');
-  }
-}
-
-getData();
-setInterval(getData, 60 * 1000);
+scrapeData();
+setInterval(scrapeData, 60 * 1000);
 
 app.get('/data', (req, res) => {
   return res.json(scrapedData);
