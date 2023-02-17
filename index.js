@@ -41,13 +41,13 @@ async function scrapeData() {
     // Click login button
     await page.click('.login-btn button');
 
-    // Wait for page load then click on the table to go to station overview
+    // Wait for page load then click on the table to go to plant overview
     await page.waitForTimeout(5000);
 
-    // Get station capacity
+    // Get plant capacity
     await page.waitForSelector('.el-table__row .el-table_1_column_8 .cell');
-    const stationElement = await page.$('.el-table__row .el-table_1_column_8 .cell');
-    const stationCapacity = await (await stationElement.getProperty('textContent')).jsonValue();
+    const plantCapacityElement = await page.$('.el-table__row .el-table_1_column_8 .cell');
+    const plantCapacity = await (await plantCapacityElement.getProperty('textContent')).jsonValue();
 
     await page.click('.el-table__body-wrapper tr');
     await page.waitForTimeout(5000);
@@ -61,69 +61,69 @@ async function scrapeData() {
     // Wait for detail to be available
     await popup.waitForSelector('.toptext-info > div > .fadian-info > div > span:nth-child(2)');
 
-    // Solar generation today
-    const totalYieldElement = await popup.$(
+    // Solar power
+    const solarPowerElement = await popup.$('.animation > .wrap > .fadian > .content > span');
+    const solarPower = await (await solarPowerElement.getProperty('textContent')).jsonValue();
+
+    // Solar energy generated
+    const solarEnergyGeneratedElement = await popup.$(
       '.toptext-info > div > .fadian-info > div > span:nth-child(2)'
     );
-    const totalYield = await (await totalYieldElement.getProperty('textContent')).jsonValue();
+    const solarEnergyGenerated = await (
+      await solarEnergyGeneratedElement.getProperty('textContent')
+    ).jsonValue();
 
-    // Solar generation now
-    const currentGenElement = await popup.$('.animation > .wrap > .fadian > .content > span');
-    const currentGen = await (await currentGenElement.getProperty('textContent')).jsonValue();
-
-    // Battery charge level now
-    const batteryChargeElement = await popup.$(
+    // Battery charge level
+    const batteryChargeLevelElement = await popup.$(
       '.chongdian > .content > div > .batteryProgress > .colorBox1'
     );
-    const batteryCharge = await (await batteryChargeElement.getProperty('textContent')).jsonValue();
-
-    // Battery consumption now
-    const drawFromBatteryElement = await popup.$(
-      '.animation > .wrap > .chongdian > .content > span'
-    );
-    const drawFromBattery = await (
-      await drawFromBatteryElement.getProperty('textContent')
+    const batteryChargeLevel = await (
+      await batteryChargeLevelElement.getProperty('textContent')
     ).jsonValue();
+
+    // Battery power
+    const batteryPowerElement = await popup.$('.animation > .wrap > .chongdian > .content > span');
+    const batteryPower = await (await batteryPowerElement.getProperty('textContent')).jsonValue();
 
     // if charge is goign TO battery, it had this:
     // <div data-v-44bfab40="" class="chongdianqiu" style="background-color: rgb(170, 218, 118); border-color: rgba(170, 218, 118, 0.3);"></div>
     // if charge is going FROM battery it had this:
     // <div data-v-44bfab40="" class="chongdianqiu" style="background-color: rgb(182, 118, 218); border-color: rgba(182, 118, 218, 0.35);"></div>
 
-    // Battery charging today
-    const todaysChargingElement = await popup.$(
+    // Battery energy charged
+    const batteryEnergyChargedElement = await popup.$(
       '.bottomtext-info > div > .chongdian-info > div:nth-child(1) > span:nth-child(2)'
     );
-    const todaysCharging = await (
-      await todaysChargingElement.getProperty('textContent')
+    const batteryEnergyCharged = await (
+      await batteryEnergyChargedElement.getProperty('textContent')
     ).jsonValue();
 
-    // Battery discharge today
-    const todaysDischargingElement = await popup.$(
+    // Battery energy discharged
+    const batteryEnergyDischargedElement = await popup.$(
       '.bottomtext-info > div > .chongdian-info > div:nth-child(2) > span:nth-child(2)'
     );
-    const todaysDischarging = await (
-      await todaysDischargingElement.getProperty('textContent')
+    const batteryEnergyDischarged = await (
+      await batteryEnergyDischargedElement.getProperty('textContent')
     ).jsonValue();
 
-    // Today from grid
-    const todayFromElement = await popup.$(
+    // Grid power
+    const gridPowerElement = await popup.$('.animation > .wrap > .maidian > .content > span');
+    const gridPower = await (await gridPowerElement.getProperty('textContent')).jsonValue();
+
+    // Grid energy imported
+    const gridEnergyImportedElement = await popup.$(
       '.toptext-info > div > .maidian-info > div:nth-child(1) > span:nth-child(2)'
     );
-    const todayFromGrid = await (await todayFromElement.getProperty('textContent')).jsonValue();
+    const gridEnergyImported = await (
+      await gridEnergyImportedElement.getProperty('textContent')
+    ).jsonValue();
 
-    // Today to grid
-    const todayToElement = await popup.$(
+    // Grid energy exported
+    const gridEnergyExportedElement = await popup.$(
       '.toptext-info > div > .maidian-info > div:nth-child(2) > span:nth-child(2)'
     );
-    const todayToGrid = await (await todayToElement.getProperty('textContent')).jsonValue();
-
-    // Grid in/out now
-    const currentGridInOutElement = await popup.$(
-      '.animation > .wrap > .maidian > .content > span'
-    );
-    const currentGridInOut = await (
-      await currentGridInOutElement.getProperty('textContent')
+    const gridEnergyExported = await (
+      await gridEnergyExportedElement.getProperty('textContent')
     ).jsonValue();
 
     /*
@@ -132,49 +132,50 @@ async function scrapeData() {
 		 <div data-v-44bfab40="" class="maidianqiu" style="background-color: rgb(95, 145, 203); border-color: rgba(45, 111, 187, 0.2);"></div>
 
 		 css classes (animation and webkit-animation) the name implies the direction
+     const houseLoadPower = await (
 		 	maidan
 		*/
 
-    // House draw now
-    const currentHouseDrawElement = await popup.$(
-      '.animation > .wrap > .yongdian > .content > span'
-    );
-    const currentHouseDraw = await (
-      await currentHouseDrawElement.getProperty('textContent')
-    ).jsonValue();
+    // House power
+    const housePowerElement = await popup.$('.animation > .wrap > .yongdian > .content > span');
+    const housePower = await (await housePowerElement.getProperty('textContent')).jsonValue();
 
-    // House consumption today
-    const totalHouseConsumptionElement = await popup.$(
+    // House energy consumed
+    const houseEnergyConsumedElement = await popup.$(
       '.bottomtext-info > div > .yongdian-info > div > span:nth-child(2)'
     );
-    const totalHouseConsumption = await (
-      await totalHouseConsumptionElement.getProperty('textContent')
+    const houseEnergyConsumed = await (
+      await houseEnergyConsumedElement.getProperty('textContent')
     ).jsonValue();
 
     await browser.close();
 
-    // Puppeteer will put the string value of NaN if it can't get it, which is why we check for the string not isNaN()
-    if (currentGen === 'NaN') {
+    if (solarPower === 'NaN') {
+      // Puppeteer will put the string value of NaN if it can't get it, which is why we check for the string not isNaN()
       return {};
     } else {
-      // Elements should be named NOW or TODAY as appropriate
-      // A negative value could mean drawing FROM ad positive is TO
-      // ie -1kw = coming from battery or grid
-      //     1kw = going to battery or grid
       return {
         scrapedAt: new Date().toISOString(),
-        totalYield,
-        currentGen,
-        batteryCharge,
-        drawFromBattery,
-        todaysCharging,
-        todaysDischarging,
-        todayFromGrid,
-        todayToGrid,
-        currentGridInOut,
-        currentHouseDraw,
-        totalHouseConsumption,
-        stationCapacity,
+        plantCapacity,
+        grid: {
+          power: gridPower,
+          energyImported: gridEnergyImported,
+          energyExported: gridEnergyExported,
+        },
+        solar: {
+          power: solarPower,
+          energyGenerated: solarEnergyGenerated,
+        },
+        house: {
+          power: housePower,
+          energyConsumed: houseEnergyConsumed,
+        },
+        battery: {
+          chargeLevel: batteryChargeLevel,
+          power: batteryPower,
+          energyCharged: batteryEnergyCharged,
+          energyDischarged: batteryEnergyDischarged,
+        },
       };
     }
   } catch (e) {
