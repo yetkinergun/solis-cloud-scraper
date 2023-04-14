@@ -109,8 +109,6 @@ const scrapeData = async () => {
     console.log('ERROR: ' + error.message);
   } finally {
     await browser.close();
-    scrapedFields = {};
-    erroredFields = {};
   }
 };
 
