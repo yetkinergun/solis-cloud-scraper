@@ -36,11 +36,11 @@ module.exports = {
     unit: 'kWh',
   },
   housePower: {
-    selector: '.animation > .wrap > .yongdian > .content > span',
+    selector: '.animation > .wrap > .grid-side > .content > span',
     unit: 'kW',
   },
   houseEnergyConsumed: {
-    selector: '.bottomtext-info > div > .yongdian-info > div > span:nth-child(2)',
+    selector: '.animation > .wrap > .grid-side > .use-power > span:nth-child(2)',
     unit: 'kWh',
   },
 };
