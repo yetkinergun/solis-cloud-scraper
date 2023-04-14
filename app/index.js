@@ -9,7 +9,8 @@ const USERNAME = process.env.SOLIS_USERNAME;
 const PASSWORD = process.env.SOLIS_PASSWORD;
 const PORT = 8080;
 
-const scrapedData = {};
+let scrapedFields = {};
+let erroredFields = {};
 
 const validateScrapedValue = (fieldName, newValue) => {
   if (fieldName !== 'batteryChargeLevel') {
@@ -18,7 +19,7 @@ const validateScrapedValue = (fieldName, newValue) => {
 
   // batteryChargeLevel returns 0% intermittently on SolisCloud
   // ignore large drops from >15% down to 0%
-  const oldValue = scrapedData[fieldName];
+  const oldValue = scrapedFields[fieldName];
   if (newValue === 0 && oldValue >= 15) {
     return oldValue;
   }
@@ -28,10 +29,15 @@ const validateScrapedValue = (fieldName, newValue) => {
 
 const scrapeField = async (page, fieldName, selector, unit) => {
   const element = await page.$(selector);
-  const resultString = await (await element.getProperty('textContent')).jsonValue();
-  const resultFloat = parseFloat(resultString.replace(unit, ''));
-  const validatedResult = validateScrapedValue(fieldName, resultFloat);
-  scrapedData[fieldName] = validatedResult;
+  try {
+    const textContent = await element.getProperty('textContent');
+    const resultString = await textContent.jsonValue();
+    const resultFloat = parseFloat(resultString.replace(unit, ''));
+    const validatedResult = validateScrapedValue(fieldName, resultFloat);
+    scrapedFields[fieldName] = validatedResult;
+  } catch (error) {
+    erroredFields[fieldName] = error.message;
+  }
 };
 
 const scrapeData = async () => {
@@ -93,9 +99,9 @@ const scrapeData = async () => {
 
     await Promise.all(promises);
 
-    if (Object.keys(scrapedData).length > 0) {
-      scrapedData.scrapedAt = new Date().toISOString();
-      console.log('SUCCESS: Data scraped at ' + scrapedData.scrapedAt);
+    if (Object.keys(scrapedFields).length > 0) {
+      scrapedFields.scrapedAt = new Date().toISOString();
+      console.log('SUCCESS: Data scraped at ' + scrapedFields.scrapedAt);
     } else {
       console.log('ERROR: Failed to fetch data...');
     }
@@ -103,6 +109,8 @@ const scrapeData = async () => {
     console.log('ERROR: ' + error.message);
   } finally {
     await browser.close();
+    scrapedFields = {};
+    erroredFields = {};
   }
 };
 
@@ -110,7 +118,10 @@ scrapeData();
 setInterval(scrapeData, 60 * 1000);
 
 app.get('/data', (req, res) => {
-  return res.json(scrapedData);
+  return res.json({
+    scrapedFields,
+    erroredFields,
+  });
 });
 
 app.listen(PORT, () => {
