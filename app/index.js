@@ -9,8 +9,8 @@ const USERNAME = process.env.SOLIS_USERNAME;
 const PASSWORD = process.env.SOLIS_PASSWORD;
 const PORT = 8080;
 
-let scrapedFields = {};
-let erroredFields = {};
+const scrapedFields = {};
+const erroredFields = {};
 
 const validateScrapedValue = (fieldName, newValue) => {
   if (fieldName !== 'batteryChargeLevel') {
