@@ -9,8 +9,7 @@ const USERNAME = process.env.SOLIS_USERNAME;
 const PASSWORD = process.env.SOLIS_PASSWORD;
 const PORT = 8080;
 
-const scrapedFields = {};
-const erroredFields = {};
+let scrapedFields, erroredFields;
 
 const validateScrapedValue = (fieldName, newValue) => {
   if (fieldName !== 'batteryChargeLevel') {
@@ -42,6 +41,8 @@ const scrapeField = async (page, fieldName, selector, unit) => {
 
 const scrapeData = async () => {
   console.log('Scrape requested at ' + new Date().toUTCString());
+  scrapedFields = {};
+  erroredFields = {};
 
   const browser = await puppeteer.launch({
     headless: true,
