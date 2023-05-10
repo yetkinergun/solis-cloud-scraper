@@ -74,8 +74,20 @@ const scrapeData = async () => {
     });
 
     // Click login button
-    await page.click('.login-btn button');
-    await page.waitForTimeout(5000);
+    await Promise.all([
+      page.click('.login-btn button'),
+      page.waitForTimeout(1000),
+      page.waitForNavigation(),
+    ]);
+
+    // Close maintenance dialogue if it's there
+    await Promise.all([
+      page.evaluate(() => {
+        document.querySelector('.el-dialog__headerbtn').click();
+      }),
+      page.waitForTimeout(1000),
+      page.waitForNavigation(),
+    ]);
 
     // Click on plant overview
     await page.click('.el-table__body-wrapper tr');
