@@ -28,8 +28,8 @@ const validateScrapedValue = (fieldName, newValue) => {
 };
 
 const scrapeField = async (page, fieldName, selector, unit) => {
-  const element = await page.$(selector);
   try {
+    const element = await page.$(selector);
     const textContent = await element.getProperty('textContent');
     const resultString = await textContent.jsonValue();
     const resultFloat = parseFloat(resultString.replace(unit, ''));
@@ -47,7 +47,11 @@ const scrapeData = async () => {
 
   const browser = await puppeteer.launch({
     headless: true,
-    args: ['--no-zygote', '--no-sandbox'],
+    args: ['--no-zygote', '--no-sandbox', '--window-size=1920,1080'],
+    defaultViewport: {
+      width:1920,
+      height:1080,
+    },
   });
 
   try {
@@ -99,7 +103,7 @@ const scrapeData = async () => {
     await newPage.setViewport({ width: 1200, height: 1000 });
 
     // Wait for detail to be available
-    await newPage.waitForSelector('.toptext-info > div > .fadian-info > div > span:nth-child(2)');
+    await newPage.waitForSelector('#general-situation > div > div.main > div.station-content > div.left-box > div.energy-storage-animation.gl-content2 > div:nth-child(2) > div > div > div:nth-child(1) > span');
 
     // Scrape fields
     const fieldNames = Object.keys(FIELD_CONFIG);

@@ -1,46 +1,46 @@
 module.exports = {
   solarPower: {
-    selector: '.animation > .wrap > .fadian > .content > span',
+    selector: '#general-situation > div > div.main > div.station-content > div.left-box > div.energy-storage-animation.gl-content2 > div:nth-child(2) > div > div > div:nth-child(1) > span',
     unit: 'kW',
   },
   solarEnergyGenerated: {
-    selector: '.toptext-info > div > .fadian-info > div > span:nth-child(2)',
+    selector: '#general-situation > div > div.main > div.station-content > div.left-box > div.energy-storage-animation.gl-content2 > div:nth-child(2) > div > div > div:nth-child(1) > div.capsule.capsule-l.capsule-pv > div > p.info-val',
     unit: 'kWh',
   },
   batteryChargeLevel: {
-    selector: '.chongdian > .content > div > .batteryProgress > .colorBox1',
+    selector: '#general-situation > div > div.main > div.station-content > div.left-box > div.energy-storage-animation.gl-content2 > div:nth-child(2) > div > div > div:nth-child(4) > div.battery-icon-box > div > p.battery-num',
     unit: '%',
   },
   batteryPower: {
-    selector: '.animation > .wrap > .chongdian > .content > span',
+    selector: '#general-situation > div > div.main > div.station-content > div.left-box > div.energy-storage-animation.gl-content2 > div:nth-child(2) > div > div > div:nth-child(4) > span',
     unit: 'kW',
   },
   batteryEnergyCharged: {
-    selector: '.bottomtext-info > div > .chongdian-info > div:nth-child(1) > span:nth-child(2)',
+    selector: '#general-situation > div > div.main > div.station-content > div.left-box > div.energy-storage-animation.gl-content2 > div:nth-child(2) > div > div > div:nth-child(4) > div.capsule.capsule-l.capsule-discharge > div:nth-child(2) > p.info-val',
     unit: 'kWh',
   },
   batteryEnergyDischarged: {
-    selector: '.bottomtext-info > div > .chongdian-info > div:nth-child(2) > span:nth-child(2)',
+    selector: '#general-situation > div > div.main > div.station-content > div.left-box > div.energy-storage-animation.gl-content2 > div:nth-child(2) > div > div > div:nth-child(4) > div.capsule.capsule-l.capsule-discharge > div:nth-child(3) > p.info-val',
     unit: 'kWh',
   },
   gridPower: {
-    selector: '.animation > .wrap > .maidian > .content > span',
+    selector: '#general-situation > div > div.main > div.station-content > div.left-box > div.energy-storage-animation.gl-content2 > div:nth-child(2) > div > div > div:nth-child(2) > span',
     unit: 'kW',
   },
   gridEnergyImported: {
-    selector: '.toptext-info > div > .maidian-info > div:nth-child(1) > span:nth-child(2)',
+    selector: '#general-situation > div > div.main > div.station-content > div.left-box > div.energy-storage-animation.gl-content2 > div:nth-child(2) > div > div > div:nth-child(2) > div > div:nth-child(2) > p.info-val',
     unit: 'kWh',
   },
   gridEnergyExported: {
-    selector: '.toptext-info > div > .maidian-info > div:nth-child(2) > span:nth-child(2)',
+    selector: '#general-situation > div > div.main > div.station-content > div.left-box > div.energy-storage-animation.gl-content2 > div:nth-child(2) > div > div > div:nth-child(2) > div > div:nth-child(3) > p.info-val',
     unit: 'kWh',
   },
   housePower: {
-    selector: '.animation > .wrap > .yongdian > .content > span',
+    selector: '#general-situation > div > div.main > div.station-content > div.left-box > div.energy-storage-animation.gl-content2 > div:nth-child(2) > div > div > div:nth-child(5) > span',
     unit: 'kW',
   },
   houseEnergyConsumed: {
-    selector: '.animation > .bottomtext-info > div > .yongdian-info > div > span:nth-child(2)',
+    selector: '#general-situation > div > div.main > div.station-content > div.left-box > div.energy-storage-animation.gl-content2 > div:nth-child(2) > div > div > div:nth-child(5) > div > div > p.info-val',
     unit: 'kWh',
   },
 };
