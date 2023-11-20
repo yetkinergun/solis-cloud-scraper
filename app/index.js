@@ -1,6 +1,7 @@
 const puppeteer = require('puppeteer');
 const express = require('express');
 const FIELD_CONFIG = require('./fieldConfig.js');
+const FIELD_NAMES = Object.keys(FIELD_CONFIG);
 
 const app = express();
 
@@ -56,7 +57,6 @@ const scrapeData = async () => {
 
   try {
     const page = await browser.newPage();
-    await page.setViewport({ width: 1200, height: 1000 });
     await page.goto(SOLIS_URL);
     await page.reload();
     await page.waitForTimeout(5000);
@@ -100,14 +100,12 @@ const scrapeData = async () => {
     // Move to new tab
     const pages = await browser.pages();
     const newPage = pages[pages.length - 1];
-    await newPage.setViewport({ width: 1200, height: 1000 });
 
     // Wait for detail to be available
-    await newPage.waitForSelector('#general-situation > div > div.main > div.station-content > div.left-box > div.energy-storage-animation.gl-content2 > div:nth-child(2) > div > div > div:nth-child(1) > span');
+    await newPage.waitForSelector(FIELD_CONFIG[FIELD_NAMES[0]].selector);
 
     // Scrape fields
-    const fieldNames = Object.keys(FIELD_CONFIG);
-    const promises = fieldNames.map((fieldName) => {
+    const promises = FIELD_NAMES.map((fieldName) => {
       const { selector, unit } = FIELD_CONFIG[fieldName];
 
       return new Promise((resolve, reject) =>
@@ -124,7 +122,11 @@ const scrapeData = async () => {
       console.log('ERROR: Failed to fetch data...');
     }
   } catch (error) {
-    console.log('ERROR: ' + error.message);
+    console.log(`ERROR: ${error.message}`);
+
+    FIELD_NAMES.forEach(fieldName => {
+      erroredFields[fieldName] = `ERROR: ${error.message}`;
+    });
   } finally {
     await browser.close();
   }
