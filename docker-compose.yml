@@ -5,7 +5,8 @@ services:
     container_name: solis-cloud-scraper
     build: ./app
     environment:
-      - TZ=Europe/London
+      - TZ=${TZ}
+      - SOLIS_URL=${SOLIS_URL}
       - SOLIS_USERNAME=${SOLIS_USERNAME}
       - SOLIS_PASSWORD=${SOLIS_PASSWORD}
     ports:
