@@ -9,6 +9,7 @@ const { SOLIS_URL, SOLIS_USERNAME, SOLIS_PASSWORD } = process.env;
 const PORT = 8080;
 
 const FIELD_NAMES = Object.keys(scrapedData) as FieldName[];
+let scrapeErrorCount = 0;
 
 const validateScrapedValue = (fieldName: FieldName, newValue: number) => {
   if (fieldName !== "batteryChargeLevel") {
@@ -127,6 +128,7 @@ const scrapeData = async () => {
     await Promise.all(promises);
 
     if (FIELD_NAMES.map((fieldName) => scrapedData[fieldName].value).some((value) => value != null)) {
+      scrapeErrorCount = 0;
       console.log("SUCCESS: Data scraped at " + new Date().toISOString());
     } else {
       console.log("ERROR: Failed to scrape data...");
@@ -134,12 +136,15 @@ const scrapeData = async () => {
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
     console.log(`ERROR: ${errorMessage}`);
+    scrapeErrorCount++;
 
-    FIELD_NAMES.forEach((fieldName) => {
-      scrapedData[fieldName].value = null;
-      scrapedData[fieldName].scrapedAt = null;
-      scrapedData[fieldName].error = `ERROR: ${errorMessage}`;
-    });
+    if (scrapeErrorCount >= 5) {
+      FIELD_NAMES.forEach((fieldName) => {
+        scrapedData[fieldName].value = null;
+        scrapedData[fieldName].scrapedAt = null;
+        scrapedData[fieldName].error = `ERROR: ${errorMessage}`;
+      });
+    }
   } finally {
     await browser.close();
   }
