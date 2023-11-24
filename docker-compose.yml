@@ -6,6 +6,7 @@ services:
     build: ./app
     environment:
       - TZ=${TZ}
+      - NODE_ENV=${NODE_ENV}
       - SOLIS_URL=${SOLIS_URL}
       - SOLIS_USERNAME=${SOLIS_USERNAME}
       - SOLIS_PASSWORD=${SOLIS_PASSWORD}
