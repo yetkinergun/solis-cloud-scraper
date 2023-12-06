@@ -9,6 +9,7 @@ const { SOLIS_URL, SOLIS_USERNAME, SOLIS_PASSWORD } = process.env;
 const PORT = 8080;
 
 const FIELD_NAMES = Object.keys(scrapedData) as FieldName[];
+const SCRAPE_ERROR_LIMIT = 20; // report errors after 20 consecutive scrape failures
 let scrapeErrorCount = 0;
 
 const validateScrapedValue = (fieldName: FieldName, newValue: number) => {
@@ -127,7 +128,7 @@ const scrapeData = async () => {
 
     await Promise.all(promises);
 
-    if (FIELD_NAMES.map((fieldName) => scrapedData[fieldName].value).some((value) => value != null)) {
+    if (FIELD_NAMES.map((fieldName) => scrapedData[fieldName].value).every((value) => value != null)) {
       scrapeErrorCount = 0;
       console.log("SUCCESS: Data scraped at " + new Date().toISOString());
     } else {
@@ -138,7 +139,7 @@ const scrapeData = async () => {
     console.log(`ERROR: ${errorMessage}`);
     scrapeErrorCount++;
 
-    if (scrapeErrorCount >= 5) {
+    if (scrapeErrorCount >= SCRAPE_ERROR_LIMIT) {
       FIELD_NAMES.forEach((fieldName) => {
         scrapedData[fieldName].value = null;
         scrapedData[fieldName].scrapedAt = null;
