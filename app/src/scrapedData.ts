@@ -19,7 +19,7 @@ export const scrapedData: ScrapedData = {
   },
   batteryChargeLevel: {
     selector:
-      "#general-situation > div > div.main > div.station-content > div.left-box > div.energy-storage-animation.gl-content2 > div:nth-child(2) > div > div > div:nth-child(4) > div.battery-icon-box > div > p.battery-num",
+      "#general-situation > div > div.main > div.station-content > div.left-box > div.energy-storage-animation.gl-content2 > div:nth-child(2) > div > div > div:nth-child(4) > div.battery-icon-box > div > p.battery-soc",
     unit: "%",
     value: null,
     scrapedAt: null,
@@ -35,7 +35,7 @@ export const scrapedData: ScrapedData = {
   },
   batteryEnergyCharged: {
     selector:
-      "#general-situation > div > div.main > div.station-content > div.left-box > div.energy-storage-animation.gl-content2 > div:nth-child(2) > div > div > div:nth-child(4) > div:last-child > div:nth-child(2) > p.info-val",
+      "#general-situation > div > div.main > div.station-content > div.left-box > div.energy-storage-animation.gl-content2 > div:nth-child(2) > div > div > div:nth-child(4) > div.capsule.capsule-l.capsule-discharge > div:nth-child(2) > p.info-val.data-blur",
     unit: "kWh",
     value: null,
     scrapedAt: null,
@@ -43,7 +43,7 @@ export const scrapedData: ScrapedData = {
   },
   batteryEnergyDischarged: {
     selector:
-      "#general-situation > div > div.main > div.station-content > div.left-box > div.energy-storage-animation.gl-content2 > div:nth-child(2) > div > div > div:nth-child(4) > div:last-child > div:nth-child(3) > p.info-val",
+      "#general-situation > div > div.main > div.station-content > div.left-box > div.energy-storage-animation.gl-content2 > div:nth-child(2) > div > div > div:nth-child(4) > div.capsule.capsule-l.capsule-discharge > div:nth-child(3) > p.info-val.data-blur",
     unit: "kWh",
     value: null,
     scrapedAt: null,
