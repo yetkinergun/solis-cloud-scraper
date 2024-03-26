@@ -35,7 +35,7 @@ export const scrapedData: ScrapedData = {
   },
   batteryEnergyCharged: {
     selector:
-      "#general-situation > div > div.main > div.station-content > div.left-box > div.energy-storage-animation.gl-content2 > div:nth-child(2) > div > div > div:nth-child(4) > div.capsule.capsule-l.capsule-discharge > div:nth-child(2) > p.info-val.data-blur",
+      "#general-situation > div > div.main > div.station-content > div.left-box > div.energy-storage-animation.gl-content2 > div:nth-child(2) > div > div > div:nth-child(4) > div.capsule.capsule-l > div:nth-child(2) > p.info-val.data-blur",
     unit: "kWh",
     value: null,
     scrapedAt: null,
@@ -43,7 +43,7 @@ export const scrapedData: ScrapedData = {
   },
   batteryEnergyDischarged: {
     selector:
-      "#general-situation > div > div.main > div.station-content > div.left-box > div.energy-storage-animation.gl-content2 > div:nth-child(2) > div > div > div:nth-child(4) > div.capsule.capsule-l.capsule-discharge > div:nth-child(3) > p.info-val.data-blur",
+      "#general-situation > div > div.main > div.station-content > div.left-box > div.energy-storage-animation.gl-content2 > div:nth-child(2) > div > div > div:nth-child(4) > div.capsule.capsule-l > div:nth-child(3) > p.info-val.data-blur",
     unit: "kWh",
     value: null,
     scrapedAt: null,
