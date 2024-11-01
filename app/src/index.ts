@@ -109,7 +109,9 @@ const scrapeData = async () => {
     ]);
 
     // Click on plant overview
-    await page.click(".el-table__body-wrapper tr");
+    const clickableElementSelector = ".el-table__body tr:first-child td:nth-child(2)";
+    await page.waitForSelector(clickableElementSelector);
+    await page.click(clickableElementSelector);
     await new Promise((resolve) => setTimeout(resolve, 5000));
 
     // Move to new tab
