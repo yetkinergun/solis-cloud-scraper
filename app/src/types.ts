@@ -1,19 +1,19 @@
-export type FieldName = |
-  "solarPower" |
-  "solarEnergyGenerated" |
-  "batteryChargeLevel" | 
-  "batteryPower" |
-  "batteryEnergyCharged" |
-  "batteryEnergyDischarged" |
-  "gridPower" |
-  "gridEnergyImported" |
-  "gridEnergyExported" |
-  "housePower" |
-  "houseEnergyConsumed";
+export type FieldName =
+  | "solarPower"
+  | "solarEnergyGenerated"
+  | "batteryChargeLevel"
+  | "batteryPower"
+  | "batteryEnergyCharged"
+  | "batteryEnergyDischarged"
+  | "gridPower"
+  | "gridEnergyImported"
+  | "gridEnergyExported"
+  | "housePower"
+  | "houseEnergyConsumed";
 
 export type Unit = "kW" | "kWh" | "%";
 
-export type ScrapedData = {
+export type FieldConfig = {
   [key in FieldName]: {
     selector: string;
     unit: Unit;

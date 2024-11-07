@@ -1,6 +1,6 @@
-import { ScrapedData } from "./types";
+import { FieldConfig } from "./types";
 
-export const scrapedData: ScrapedData = {
+export const FIELD_CONFIG: FieldConfig = {
   solarPower: {
     selector:
       "#general-situation > div:nth-child(1) > div.main > div.station-content > div.left-box > div.energy-storage-animation.gl-content2 > div.flow-diagram-box > div:nth-child(2) > div > div.energy-storage > div:nth-child(1) > span",
@@ -11,7 +11,7 @@ export const scrapedData: ScrapedData = {
   },
   solarEnergyGenerated: {
     selector:
-      "#general-situation > div > div.main > div.station-content > div.left-box > div.energy-storage-animation.gl-content2 > div:nth-child(2) > div > div > div:nth-child(1) > div.capsule.capsule-l.capsule-pv > div > p.info-val",
+      "#general-situation > div:nth-child(1) > div.main > div.station-content > div.left-box > div.echarts-electrovalence-energy-box.gl-content2 > div > div > div.energy-balance > div.stored-energy-box > div.energy-data > div:nth-child(1) > div:nth-child(1) > div.gl-content-item-content > span > span",
     unit: "kWh",
     value: null,
     scrapedAt: null,
@@ -27,7 +27,7 @@ export const scrapedData: ScrapedData = {
   },
   batteryPower: {
     selector:
-      "#general-situation > div > div.main > div.station-content > div.left-box > div.energy-storage-animation.gl-content2 > div:nth-child(2) > div > div > div:nth-child(4) > span",
+      "#general-situation > div:nth-child(1) > div.main > div.station-content > div.left-box > div.energy-storage-animation.gl-content2 > div.flow-diagram-box > div:nth-child(2) > div > div.energy-storage > div:nth-child(4) > span",
     unit: "kW",
     value: null,
     scrapedAt: null,
@@ -51,7 +51,7 @@ export const scrapedData: ScrapedData = {
   },
   gridPower: {
     selector:
-      "#general-situation > div > div.main > div.station-content > div.left-box > div.energy-storage-animation.gl-content2 > div:nth-child(2) > div > div > div:nth-child(2) > span",
+      "#general-situation > div:nth-child(1) > div.main > div.station-content > div.left-box > div.energy-storage-animation.gl-content2 > div.flow-diagram-box > div:nth-child(2) > div > div.energy-storage > div:nth-child(2) > span",
     unit: "kW",
     value: null,
     scrapedAt: null,
@@ -59,7 +59,7 @@ export const scrapedData: ScrapedData = {
   },
   gridEnergyImported: {
     selector:
-      "#general-situation > div > div.main > div.station-content > div.left-box > div.energy-storage-animation.gl-content2 > div:nth-child(2) > div > div > div:nth-child(2) > div > div:nth-child(2) > p.info-val",
+      "#general-situation > div:nth-child(1) > div.main > div.station-content > div.left-box > div.energy-storage-animation.gl-content2 > div.flow-diagram-box > div:nth-child(2) > div > div.energy-storage > div:nth-child(2) > div > div:nth-child(2) > p.info-val.data-blur",
     unit: "kWh",
     value: null,
     scrapedAt: null,
@@ -67,7 +67,7 @@ export const scrapedData: ScrapedData = {
   },
   gridEnergyExported: {
     selector:
-      "#general-situation > div > div.main > div.station-content > div.left-box > div.energy-storage-animation.gl-content2 > div:nth-child(2) > div > div > div:nth-child(2) > div > div:nth-child(3) > p.info-val",
+      "#general-situation > div:nth-child(1) > div.main > div.station-content > div.left-box > div.echarts-electrovalence-energy-box.gl-content2 > div > div > div.energy-balance > div.stored-energy-box > div.echarts-box > div.energy-balance-echarts-data > div:nth-child(2) > div.value-percent-box > span:nth-child(1)",
     unit: "kWh",
     value: null,
     scrapedAt: null,
@@ -75,7 +75,7 @@ export const scrapedData: ScrapedData = {
   },
   housePower: {
     selector:
-      "#general-situation > div > div.main > div.station-content > div.left-box > div.energy-storage-animation.gl-content2 > div:nth-child(2) > div > div > div:nth-child(5) > span",
+      "#general-situation > div:nth-child(1) > div.main > div.station-content > div.left-box > div.energy-storage-animation.gl-content2 > div.flow-diagram-box > div:nth-child(2) > div > div.energy-storage > div:nth-child(5) > span",
     unit: "kW",
     value: null,
     scrapedAt: null,
@@ -83,7 +83,7 @@ export const scrapedData: ScrapedData = {
   },
   houseEnergyConsumed: {
     selector:
-      "#general-situation > div > div.main > div.station-content > div.left-box > div.energy-storage-animation.gl-content2 > div:nth-child(2) > div > div > div:nth-child(5) > div > div > p.info-val",
+      "#general-situation > div:nth-child(1) > div.main > div.station-content > div.left-box > div.energy-storage-animation.gl-content2 > div.flow-diagram-box > div:nth-child(2) > div > div.energy-storage > div:nth-child(5) > div > div > p.info-val.data-blur",
     unit: "kWh",
     value: null,
     scrapedAt: null,

@@ -1,6 +1,6 @@
 import express from "express";
 import puppeteer, { Page } from "puppeteer";
-import { scrapedData } from "./scrapedData.js";
+import { FIELD_CONFIG } from "./fieldConfig.js";
 import { FieldName, Unit } from "./types.js";
 
 const app = express();
@@ -8,8 +8,9 @@ const app = express();
 const { SOLIS_URL, SOLIS_USERNAME, SOLIS_PASSWORD } = process.env;
 const PORT = 8080;
 
-const FIELD_NAMES = Object.keys(scrapedData) as FieldName[];
+const FIELD_NAMES = Object.keys(FIELD_CONFIG) as FieldName[];
 const SCRAPE_ERROR_LIMIT = 20; // report errors after 20 consecutive scrape failures
+const scrapedData = { ...FIELD_CONFIG };
 let scrapeErrorCount = 0;
 
 const validateScrapedValue = (fieldName: FieldName, newValue: number) => {
@@ -124,7 +125,6 @@ const scrapeData = async () => {
     // Scrape fields
     const promises = FIELD_NAMES.map((fieldName) => {
       const { selector, unit } = scrapedData[fieldName];
-
       return new Promise((resolve) => resolve(scrapeField(newPage, fieldName, selector, unit)));
     });
 
