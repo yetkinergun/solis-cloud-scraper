@@ -35,7 +35,7 @@ export const FIELD_CONFIG: FieldConfig = {
   },
   batteryEnergyCharged: {
     selector:
-      "#general-situation > div:nth-child(1) > div.main > div.station-content > div.left-box > div.energy-storage-animation.gl-content2 > div.flow-diagram-box > div:nth-child(2) > div > div.energy-storage > div:nth-child(4) > div.capsule.capsule-l.capsule-discharge > div:nth-child(2) > p.info-val.data-blur",
+      "#general-situation > div:nth-child(1) > div.main > div.station-content > div.left-box > div.echarts-electrovalence-energy-box.gl-content2 > div > div > div.energy-balance > div.stored-energy-box > div.energy-data > div:nth-child(2) > div:nth-child(1) > div.gl-content-item-content > span > span",
     unit: "kWh",
     value: null,
     scrapedAt: null,
@@ -43,7 +43,7 @@ export const FIELD_CONFIG: FieldConfig = {
   },
   batteryEnergyDischarged: {
     selector:
-      "#general-situation > div:nth-child(1) > div.main > div.station-content > div.left-box > div.energy-storage-animation.gl-content2 > div.flow-diagram-box > div:nth-child(2) > div > div.energy-storage > div:nth-child(4) > div.capsule.capsule-l.capsule-discharge > div:nth-child(3) > p.info-val.data-blur",
+      "#general-situation > div:nth-child(1) > div.main > div.station-content > div.left-box > div.echarts-electrovalence-energy-box.gl-content2 > div > div > div.energy-balance > div.stored-energy-box > div.energy-data > div:nth-child(2) > div:nth-child(2) > div.gl-content-item-content > span > span",
     unit: "kWh",
     value: null,
     scrapedAt: null,
